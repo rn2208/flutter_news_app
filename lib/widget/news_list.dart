@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 import '../news.dart';
 import 'news_item.dart';
 
@@ -11,20 +11,26 @@ class NewsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var newsGroupByDate = groupBy(newsData, (obj) => obj.publishedAt.substring(0, 10));
     return Expanded(
       child: StreamBuilder(
         stream: newsData,
         builder: (context, asyncSnapshot) {
           List<News>? news = asyncSnapshot.data;
+
+          if (asyncSnapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: SizedBox(
+                height: 100,
+                width: 100,
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+
           if (!asyncSnapshot.hasData || news!.isEmpty) {
             return Column(
               spacing: 20,
               children: [
-                Text(
-                  'Новости не найдены',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
                 SizedBox(
                   width: 300,
                   height: 300,
@@ -33,16 +39,44 @@ class NewsList extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
+                Text(
+                  'Новости не найдены',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
               ],
             );
           }
 
-          return ListView.separated(
-            itemBuilder: (ctx, index) {
-              return NewsItem(news: news[index]);
+          var newsGroupByDate = groupBy(
+            news,
+            (obj) => obj.publishedAt.substring(0, 10),
+          );
+
+          return ListView.builder(
+            itemCount: newsGroupByDate.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              var date = newsGroupByDate.keys.elementAt(index);
+              var newsInDate = newsGroupByDate[date];
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    DateFormat.yMMMMEEEEd()
+                        .format(DateTime.parse(date))
+                        .toString(),
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  ListView(
+                    shrinkWrap: true,
+                    children: [
+                      for (var elem in newsInDate!) NewsItem(news: elem),
+                    ],
+                  ),
+                ],
+              );
             },
-            itemCount: news.length,
-            separatorBuilder: (ctx, index) => const Divider(),
           );
         },
       ),

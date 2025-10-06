@@ -42,7 +42,7 @@ class ApiService {
   Stream<List<News>> getNewsStream(String theme) async* {
     try {
       final response = await _dio.get(
-        'https://newsapi.org/v2/everything?q=$theme&apiKey=d364d52b67854ed0978b336519f1480f',
+        'https://newsapi.org/v2/everything?q=$theme&sortBy=publishedAt&apiKey=d364d52b67854ed0978b336519f1480f',
       );
 
       final dataArticles = response.data['articles'] as List;
