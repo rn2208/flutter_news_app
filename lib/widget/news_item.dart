@@ -11,10 +11,21 @@ class NewsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool drawImage = true;
+    late Image image;
+    if (news?.imageUrl != null) {
+      image = Image.network(news!.imageUrl!, errorBuilder: (c,e,s) {
+        drawImage = false;
+        return SizedBox();
+      });
+    } else {
+      drawImage = false;
+    }
+
     return (news == null) ? Text("Not Load")
     : ListTile(
       onTap: () => launchUrl(Uri.parse(news!.url)),
-      leading: (news?.imageUrl != null) ? Image.network(news!.imageUrl!, errorBuilder: (c,e,s) => SizedBox()) : null,
+      leading: (drawImage) ? image : null,
       title: Text(news!.title),
       subtitle: Text(news?.description ?? ""),
       trailing: Text(

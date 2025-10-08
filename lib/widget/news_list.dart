@@ -68,11 +68,14 @@ class NewsList extends StatelessWidget {
                         .toString(),
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
-                  ListView(
+                  ListView.separated(
                     shrinkWrap: true,
-                    children: [
-                      for (var elem in newsInDate!) NewsItem(news: elem),
-                    ],
+                    itemCount: newsInDate!.length,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const Divider(),
+                    itemBuilder: (BuildContext context, int index) {
+                      return NewsItem(news: newsInDate[index]);
+                    },
                   ),
                 ],
               );
