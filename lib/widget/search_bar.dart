@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 
+class TopSearchBar extends StatelessWidget {
+  final dynamic searchInput;
+  final dynamic fetchNews;
 
-class SearchBarWidget extends StatefulWidget {
-  final void Function([String? searchInput]) fetch;
-
-  const SearchBarWidget(this.fetch, {super.key});
-
-  @override
-  State<SearchBarWidget> createState() => _SearchBarWidgetState();
-}
-
-class _SearchBarWidgetState extends State<SearchBarWidget> {
-  final searchInput = TextEditingController();
+  const TopSearchBar(this.searchInput, this.fetchNews, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +19,17 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               decoration: const InputDecoration(hintText: 'Введите запрос'),
               key: Key('search_field'),
               controller: searchInput,
-              onSubmitted: (_) => widget.fetch(searchInput.text),
+              onSubmitted: (_) {
+                fetchNews();
+              },
             ),
           ),
         ),
         ElevatedButton(
           key: Key('search_button'),
-          style: ElevatedButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 20),
-          ),
+          style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20)),
           onPressed: () {
-            widget.fetch(searchInput.text);
+            fetchNews();
           },
           child: const Text('ПОИСК'),
         ),

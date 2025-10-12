@@ -7,53 +7,21 @@ class ApiService {
 
   ApiService(this._dio);
 
-  Future<List<News>> getNews(String theme) async {
-    if( theme == "") {
-      theme = 'Apple';
-    }
+  Stream<List<News>> getNewsStream(String theme, [int pageSize = 10]) async* {
     try {
       final response = await _dio.get(
-        'https://newsapi.org/v2/everything?q=$theme&from=2025-10-01&sortBy=popularity&apiKey=d364d52b67854ed0978b336519f1480f',
-      );
-      final dataArticles = response.data['articles'] as List;
-      final news = dataArticles.map((elem) {
-        final String source = elem['source']['name'];
-        final String? description = elem['description'];
-        final String? urlToImage = elem['urlToImage'];
-        final String url = elem['url'];
-        final String publishedAt = elem['publishedAt'];
-        final String title = elem['title'];
-        return News(
-          source: source,
-          description: description,
-          imageUrl: urlToImage,
-          url: url,
-          publishedAt: publishedAt,
-          title: title,
-        );
-      }).toList();
-      return news;
-    } on DioException catch (e) {
-      print('При выполнении запроса возникла ошибка: ${e.message}');
-      rethrow;
-    }
-  }
-
-  Stream<List<News>> getNewsStream(String theme) async* {
-    try {
-      final response = await _dio.get(
-        'https://newsapi.org/v2/everything?q=$theme&sortBy=publishedAt&apiKey=d364d52b67854ed0978b336519f1480f',
+        'https://newsapi.org/v2/everything?q=$theme&apiKey=d364d52b67854ed0978b336519f1480f&sortBy=publishedAt&pageSize=$pageSize',
       );
 
       final dataArticles = response.data['articles'] as List;
 
       final news = dataArticles.map((elem) {
-        final String source = elem['source']['name'];
-        final String? description = elem['description'];
-        final String? urlToImage = elem['urlToImage'];
-        final String url = elem['url'];
-        final String publishedAt = elem['publishedAt'];
-        final String title = elem['title'];
+        String source = elem['source']['name'];
+        String? description = elem['description'];
+        String? urlToImage = elem['urlToImage'];
+        String url = elem['url'];
+        String publishedAt = elem['publishedAt'];
+        String title = elem['title'];
         return News(
           source: source,
           description: description,
