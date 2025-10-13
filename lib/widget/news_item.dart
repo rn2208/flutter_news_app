@@ -30,7 +30,7 @@ class NewsItem extends StatelessWidget {
       subtitle: Text(news?.description ?? ""),
       trailing: Text(
         DateFormat(
-          "yyyy-MM-dd hh:mm:ss",
+          "hh:mm",
         ).format(DateTime.parse(news!.publishedAt)).toString(),
       ),
     );
