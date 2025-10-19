@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
 
-import 'news.dart';
+import '../dto/news.dart';
 
 class ApiService {
-  final Dio _dio;
-
-  ApiService(this._dio);
+  final Dio _dio = Dio();
+  ApiService();
 
   Stream<List<News>> getNewsStream(String theme, [int pageSize = 10]) async* {
     try {

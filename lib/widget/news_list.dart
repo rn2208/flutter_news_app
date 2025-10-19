@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../news.dart';
+import '../dto/news.dart';
 import 'news_item.dart';
 
 class NewsList extends StatelessWidget {

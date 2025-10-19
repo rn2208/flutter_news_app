@@ -1,8 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import '../api_service.dart';
-import '../news.dart';
+import '../service/api_service.dart';
+import '../dto/news.dart';
 import '../widget/news_list.dart';
 import '../widget/not_found_news.dart';
 import '../widget/search_bar.dart';
@@ -28,8 +27,7 @@ class NewsPageState extends State<NewsPage> {
   @override
   initState() {
     super.initState();
-    final dio = Dio();
-    apiService = ApiService(dio);
+    apiService = ApiService();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {

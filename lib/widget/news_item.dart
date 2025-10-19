@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
-import '../news.dart';
+import '../dto/news.dart';
 
 class NewsItem extends StatelessWidget {
   final News? news;
