@@ -35,6 +35,7 @@ class NewsList extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               ListView.separated(
+                physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: newsInDate!.length,
                 separatorBuilder: (BuildContext context, int index) => const Divider(),
