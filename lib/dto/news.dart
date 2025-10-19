@@ -14,4 +14,15 @@ class News {
     required this.publishedAt,
     required this.source,
   });
+
+  factory News.fromJson(Map<String, dynamic> map) {
+    return News(
+      source: map['source']['name'],
+      description: map['description'],
+      imageUrl: map['urlToImage'],
+      url: map['url'],
+      publishedAt: map['publishedAt'],
+      title: map['title'],
+    );
+  }
 }

@@ -15,20 +15,7 @@ class ApiService {
       final dataArticles = response.data['articles'] as List;
 
       final news = dataArticles.map((elem) {
-        String source = elem['source']['name'];
-        String? description = elem['description'];
-        String? urlToImage = elem['urlToImage'];
-        String url = elem['url'];
-        String publishedAt = elem['publishedAt'];
-        String title = elem['title'];
-        return News(
-          source: source,
-          description: description,
-          imageUrl: urlToImage,
-          url: url,
-          publishedAt: publishedAt,
-          title: title,
-        );
+        return News.fromJson(elem);
       }).toList();
       yield news;
     } on DioException catch (e) {
